@@ -123,7 +123,7 @@ class Game extends React.Component {
     });
   }
 
-  dec() {
+  sortHistory() {
     this.setState({
       isHistoryDescending: !this.state.isHistoryDescending,
     });
@@ -171,7 +171,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <div><button onClick = {() => this.dec()}>表示切り替え</button></div>
+          <div><button onClick = {() => this.sortHistory()}>表示切り替え</button></div>
           {this.state.isHistoryDescending ? <ol reversed="reversed">{moves.reverse()}</ol> : <ol>{moves}</ol>}
         </div>
       </div>
