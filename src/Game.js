@@ -35,7 +35,7 @@ function calculateWinner(squares) {
     winLine.sort(compareFunc);
     return {
       winner: squares[winLine[0]],
-      winLine: winLine,
+      winLine,
     };
   }
   return {
@@ -107,9 +107,9 @@ class Game extends React.Component {
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       history: history.concat([{
-        squares: squares,
-        col: col,
-        row: row,
+        squares,
+        col,
+        row,
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
