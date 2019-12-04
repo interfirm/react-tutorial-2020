@@ -23,19 +23,19 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  let array = [];
+  let winLine = [];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      array = array.concat(lines[i]);
+      winLine = winLine.concat(lines[i]);
     }
   }
-  if (array.length) {
-    array = array.filter((x, i, self) => self.indexOf(x) === i);
-    array.sort(compareFunc);
+  if (winLine.length) {
+    winLine = winLine.filter((x, i, self) => self.indexOf(x) === i);
+    winLine.sort(compareFunc);
     return {
-      winner: squares[array[0]],
-      winLine: array,
+      winner: squares[winLine[0]],
+      winLine: winLine,
     };
   }
   return {
