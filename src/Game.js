@@ -23,19 +23,19 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  let array = [];
+  let winLine = [];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      array = array.concat(lines[i]);
+      winLine = winLine.concat(lines[i]);
     }
   }
-  if (array.length) {
-    array = array.filter((x, i, self) => self.indexOf(x) === i);
-    array.sort(compareFunc);
+  if (winLine.length) {
+    winLine = winLine.filter((x, i, self) => self.indexOf(x) === i);
+    winLine.sort(compareFunc);
     return {
-      winner: squares[array[0]],
-      winLine: array,
+      winner: squares[winLine[0]],
+      winLine,
     };
   }
   return {
@@ -45,12 +45,12 @@ function calculateWinner(squares) {
 }
 
 class Board extends React.Component {
-  renderSquare(i, isWinLine) {
+  renderSquare({index, isWinLine} = {}) {
     return (
       <Square
-        key = {i}
-        value = {this.props.squares[i]}
-        onClick = {() => this.props.onClick(i)}
+        key = {index}
+        value = {this.props.squares[index]}
+        onClick = {() => this.props.onClick(index)}
         isWinLine = {isWinLine}
       />
     );
@@ -61,17 +61,16 @@ class Board extends React.Component {
 
     let index = 0;
     for (let i = 0; i < 9; i++) {
+      if ([0, 3, 6].includes(i)) {
+        board.push(<div className="board-row" key={`b_${i}`}></div>)
+      }
+
       if (this.props.winLine && i === this.props.winLine[index]) {
-        board.push(this.renderSquare(i, true));
+        board.push(this.renderSquare({index: i, isWinLine: true}));
         index++;
       } else {
-        board.push(this.renderSquare(i, false));
+        board.push(this.renderSquare({index: i, isWinLine: false}));
       }
-    }
-
-    for (let i = 6; i >= 0; i -= 3) {
-      const key = 'board-row' + (i / 3)
-      board.splice(i, 0, (<div className="board-row" key={key}></div>));
     }
 
     return (
@@ -89,7 +88,7 @@ class Game extends React.Component {
         col: null,
         row: null,
       }],
-      movesIsDecending: false,
+      isHistoryDescending: false,
       stepNumber: 0,
       xIsNext: true,
     }
@@ -108,9 +107,9 @@ class Game extends React.Component {
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       history: history.concat([{
-        squares: squares,
-        col: col,
-        row: row,
+        squares,
+        col,
+        row,
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
@@ -124,9 +123,9 @@ class Game extends React.Component {
     });
   }
 
-  dec() {
+  sortHistory() {
     this.setState({
-      movesIsDecending: !this.state.movesIsDecending,
+      isHistoryDescending: !this.state.isHistoryDescending,
     });
   }
 
@@ -172,8 +171,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <div><button onClick = {() => this.dec()}>表示切り替え</button></div>
-          {this.state.movesIsDecending ? <ol reversed="reversed">{moves.reverse()}</ol> : <ol>{moves}</ol>}
+          <div><button onClick = {() => this.sortHistory()}>表示切り替え</button></div>
+          {this.state.isHistoryDescending ? <ol reversed="reversed">{moves.reverse()}</ol> : <ol>{moves}</ol>}
         </div>
       </div>
     );
