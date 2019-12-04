@@ -45,12 +45,12 @@ function calculateWinner(squares) {
 }
 
 class Board extends React.Component {
-  renderSquare(i, isWinLine) {
+  renderSquare({index, isWinLine} = {}) {
     return (
       <Square
-        key = {i}
-        value = {this.props.squares[i]}
-        onClick = {() => this.props.onClick(i)}
+        key = {index}
+        value = {this.props.squares[index]}
+        onClick = {() => this.props.onClick(index)}
         isWinLine = {isWinLine}
       />
     );
@@ -61,17 +61,16 @@ class Board extends React.Component {
 
     let index = 0;
     for (let i = 0; i < 9; i++) {
+      if ([0, 3, 6].includes(i)) {
+        board.push(<div className="board-row" key={`b_${i}`}></div>)
+      }
+      
       if (this.props.winLine && i === this.props.winLine[index]) {
-        board.push(this.renderSquare(i, true));
+        board.push(this.renderSquare({index: i, isWinLine: true}));
         index++;
       } else {
-        board.push(this.renderSquare(i, false));
+        board.push(this.renderSquare({index: i, isWinLine: false}));
       }
-    }
-
-    for (let i = 6; i >= 0; i -= 3) {
-      const key = 'board-row' + (i / 3)
-      board.splice(i, 0, (<div className="board-row" key={key}></div>));
     }
 
     return (
