@@ -64,7 +64,7 @@ class Board extends React.Component {
       if ([0, 3, 6].includes(i)) {
         board.push(<div className="board-row" key={`b_${i}`}></div>)
       }
-      
+
       if (this.props.winLine && i === this.props.winLine[index]) {
         board.push(this.renderSquare({index: i, isWinLine: true}));
         index++;
@@ -88,7 +88,7 @@ class Game extends React.Component {
         col: null,
         row: null,
       }],
-      movesIsDecending: false,
+      isHistoryDescending: false,
       stepNumber: 0,
       xIsNext: true,
     }
@@ -125,7 +125,7 @@ class Game extends React.Component {
 
   dec() {
     this.setState({
-      movesIsDecending: !this.state.movesIsDecending,
+      isHistoryDescending: !this.state.isHistoryDescending,
     });
   }
 
@@ -172,7 +172,7 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <div><button onClick = {() => this.dec()}>表示切り替え</button></div>
-          {this.state.movesIsDecending ? <ol reversed="reversed">{moves.reverse()}</ol> : <ol>{moves}</ol>}
+          {this.state.isHistoryDescending ? <ol reversed="reversed">{moves.reverse()}</ol> : <ol>{moves}</ol>}
         </div>
       </div>
     );
