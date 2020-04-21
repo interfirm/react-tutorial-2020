@@ -7,6 +7,7 @@
 - ESLint, Prettierの導入
 
 ### 追加課題
+- React Tutorial [追加課題](https://ja.reactjs.org/tutorial/tutorial.html#wrapping-up)
 ```
 1. 履歴内のそれぞれの着手の位置を (col, row) というフォーマットで表示する。
 2. 着手履歴のリスト中で現在選択されているアイテムをボールドにする。
@@ -15,6 +16,7 @@
 5. どちらかが勝利した際に、勝利につながった 3 つのマス目をハイライトする。
 6. どちらも勝利しなかった場合、結果が引き分けになったというメッセージを表示する。
 ```
+- 関数コンポーネントに置き換える
 
 ### 参考
 [React 公式チュートリアル](https://ja.reactjs.org/tutorial/tutorial.html#setup-option-2-local-development-environment)
